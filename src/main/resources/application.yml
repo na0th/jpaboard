@@ -1,0 +1,8 @@
+# 자동 재시작 기능 활성화
+spring:
+  devtools:
+    restart:
+      enabled: true
+# LiveReload 활성화
+    livereload:
+      enabled: true
