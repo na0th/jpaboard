@@ -1,8 +1,33 @@
 # 자동 재시작 기능 활성화
 spring:
+  jpa:
+    defer-datasource-initialization: true
   devtools:
     restart:
       enabled: true
 # LiveReload 활성화
     livereload:
       enabled: true
+#  h2 데이터베이스
+  datasource:
+    url: jdbc:h2:mem:testdb
+
+  h2:
+    console:
+      enabled: true
+#spring :
+#  jpa:
+#    show-sql:  true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#
+#    defer-datasource-initialization: true
+#
+#  datasource:
+#    url: jdbc:h2:mem:testdb
+#    username: sa
+#
+#  h2:
+#    console:
+#      enabled: true
