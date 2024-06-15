@@ -1,5 +1,8 @@
 # 자동 재시작 기능 활성화
 spring:
+# 타임리프
+  thymeleaf:
+    cache: false
   jpa:
     defer-datasource-initialization: true
   devtools:
