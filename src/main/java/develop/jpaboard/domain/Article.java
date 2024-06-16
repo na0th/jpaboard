@@ -26,5 +26,10 @@ public class Article {
         this.title = title;
         this.content = content;
     }
+    // 비즈니스 메서드
+    public void updateDetails(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 
 }

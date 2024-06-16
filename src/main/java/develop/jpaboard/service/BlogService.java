@@ -18,6 +18,9 @@ public class BlogService {
     public Article save(AddArticleRequest request) {
         return blogRepository.save(request.toEntity());
     }
+    public Article update(Article article) {
+        return blogRepository.save(article);
+    }
     public List<Article> findAll() {
         return blogRepository.findAll();
     }

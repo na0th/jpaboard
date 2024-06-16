@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,8 +36,14 @@ public class BlogViewController {
         return "article";
     }
     @GetMapping("/new-article")
-    public String newArticle(Model model) {
-        model.addAttribute("article",new ArticleViewResponse());
+    public String newArticle(@RequestParam(required = false) Long id, Model model) {
+        if (id == null){
+            model.addAttribute("article",new ArticleViewResponse());
+        }else{
+            Article findArticle = blogService.findById(id);
+            model.addAttribute("article",new ArticleViewResponse(findArticle));
+        }
+
         return "newArticle";
     }
     @PostMapping("/new-article")
@@ -55,6 +58,16 @@ public class BlogViewController {
         blogService.save(addArticleRequest);
 
         return "redirect:/articles";
+    }
+
+    @PostMapping("/articles/{id}/edit")
+    public String updateArticle(@PathVariable Long id,@ModelAttribute("article") ArticleViewResponse article, Model model) {
+        Article updateArticle = blogService.findById(id);
+//      setter써서 가능하지만 의도가 불분명해 보일 수 있으니..
+        updateArticle.updateDetails(article.getTitle(),article.getContent());
+        blogService.update(updateArticle);
+
+        return "redirect:/articles/"+id;
     }
 
 }
