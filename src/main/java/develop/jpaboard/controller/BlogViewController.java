@@ -67,4 +67,9 @@ public class BlogViewController {
         return "redirect:/articles/"+id;
     }
 
+    @GetMapping("/articles/{id}/delete")
+    public String deleteArticle(@PathVariable Long id) {
+        blogService.delete(id);
+        return "redirect:/articles";
+    }
 }

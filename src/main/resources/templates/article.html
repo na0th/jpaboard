@@ -26,6 +26,7 @@
                 th:onclick="|location.href='@{/new-article?id={articleId}(articleId=${article.id})}'|"
                 class="btn btn-primary btn-sm">수정</button>
         <button type="button" id="delete-btn"
+                th:onclick="|location.href='@{/articles/{id}/delete(id=${article.id})}'|"
                 class="btn btn-secondary btn-sm">삭제</button>
       </article>
     </div>
