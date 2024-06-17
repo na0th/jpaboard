@@ -1,10 +1,8 @@
 package develop.jpaboard.controller;
 
 import develop.jpaboard.domain.Article;
-import develop.jpaboard.dto.AddArticleRequest;
-import develop.jpaboard.dto.ArticleListViewResponse;
-import develop.jpaboard.dto.ArticleViewResponse;
-import develop.jpaboard.dto.UpdateArticleRequest;
+import develop.jpaboard.domain.Comment;
+import develop.jpaboard.dto.*;
 import develop.jpaboard.repository.BlogRepository;
 import develop.jpaboard.service.BlogService;
 import lombok.RequiredArgsConstructor;
@@ -71,5 +69,11 @@ public class BlogViewController {
     public String deleteArticle(@PathVariable Long id) {
         blogService.delete(id);
         return "redirect:/articles";
+    }
+
+    @PostMapping("/articles/{id}/comments")
+    public String AddComment(@PathVariable Long id, AddCommentRequest request) {
+        blogService.AddComment(id,request);
+        return "redirect:/articles/"+id;
     }
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
@@ -20,6 +21,9 @@ public class Article {
 
     @Column(name = "title")
     private String title;
+
+    @OneToMany(mappedBy = "article",cascade = CascadeType.ALL)
+    private List<Comment> comments ;
 
     @Builder
     public Article(String title, String content) {
