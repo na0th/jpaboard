@@ -4,6 +4,7 @@ import develop.jpaboard.domain.Article;
 import develop.jpaboard.dto.AddArticleRequest;
 import develop.jpaboard.dto.ArticleListViewResponse;
 import develop.jpaboard.dto.ArticleViewResponse;
+import develop.jpaboard.dto.UpdateArticleRequest;
 import develop.jpaboard.repository.BlogRepository;
 import develop.jpaboard.service.BlogService;
 import lombok.RequiredArgsConstructor;
@@ -61,12 +62,8 @@ public class BlogViewController {
     }
 
     @PostMapping("/articles/{id}/edit")
-    public String updateArticle(@PathVariable Long id,@ModelAttribute("article") ArticleViewResponse article, Model model) {
-        Article updateArticle = blogService.findById(id);
-//      setter써서 가능하지만 의도가 불분명해 보일 수 있으니..
-        updateArticle.updateDetails(article.getTitle(),article.getContent());
-        blogService.update(updateArticle);
-
+    public String updateArticle(@PathVariable Long id, @ModelAttribute("article") UpdateArticleRequest updateArticleRequest, Model model) {
+        blogService.update(id, updateArticleRequest);
         return "redirect:/articles/"+id;
     }
 
