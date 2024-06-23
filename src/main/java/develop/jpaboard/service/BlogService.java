@@ -38,7 +38,7 @@ public class BlogService {
         blogRepository.deleteById(id);
     }
 
-    public Comment AddComment(Long articleId,AddCommentRequest request) {
+    public Comment addComment(Long articleId,AddCommentRequest request) {
         Article findArticle = findById(articleId);
 
         Comment comment = Comment.builder()

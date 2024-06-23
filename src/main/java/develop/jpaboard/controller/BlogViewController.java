@@ -5,6 +5,7 @@ import develop.jpaboard.domain.Comment;
 import develop.jpaboard.dto.*;
 import develop.jpaboard.repository.BlogRepository;
 import develop.jpaboard.service.BlogService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -28,9 +29,11 @@ public class BlogViewController {
 
         return "articleList";
     }
+    @Transactional
     @GetMapping("/articles/{id}")
     public String getArticle(@PathVariable Long id, Model model) {
         Article findArticle = blogService.findById(id);
+        findArticle.incrementViewCount();
         model.addAttribute("article",new ArticleViewResponse(findArticle));
         return "article";
     }
@@ -52,6 +55,7 @@ public class BlogViewController {
         AddArticleRequest addArticleRequest = AddArticleRequest.builder()
                 .title(article.getTitle())
                 .content(article.getContent())
+                .viewCount(article.getViewCount())
                 .build();
 
         blogService.save(addArticleRequest);
@@ -73,7 +77,7 @@ public class BlogViewController {
 
     @PostMapping("/articles/{id}/comments")
     public String AddComment(@PathVariable Long id, AddCommentRequest request) {
-        blogService.AddComment(id,request);
+        blogService.addComment(id,request);
         return "redirect:/articles/"+id;
     }
 }

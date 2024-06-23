@@ -17,6 +17,7 @@ public class ArticleViewResponse {
     private String title;
     private String content;
 
+    private Long viewCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private List<Comment> comments;
@@ -24,6 +25,7 @@ public class ArticleViewResponse {
         this.id = article.getId();
         this.title= article.getTitle();
         this.content= article.getContent();
+        this.viewCount = article.getViewCount();
         this.createdAt = article.getCreatedAt();
         this.updatedAt = article.getUpdatedAt();
         this.comments = article.getComments();

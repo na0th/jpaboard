@@ -20,6 +20,7 @@
           <h1 class="fw-bolder mb-1" th:text="${article.title}"></h1>
           <div class="text-muted fst-italic mb-2" th:text="|최초 작성 시간 ${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm:ss')}|"></div>
           <div class="text-muted fst-italic mb-2" th:text="|최종 수정 시간 ${#temporals.format(article.updatedAt, 'yyyy-MM-dd HH:mm:ss')}|"></div>
+          <div class="text-muted fst-italic mb-2" th:text="|조회수: ${article.viewCount}|"></div>
         </header>
         <section class="mb-5">
           <p class="fs-5 mb-4" th:text="${article.content}"></p>

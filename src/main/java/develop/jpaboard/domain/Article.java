@@ -9,6 +9,7 @@ import org.hibernate.boot.model.relational.Sequence;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,18 +37,30 @@ public class Article {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "view")
+    private Long viewCount;
+
     @OneToMany(mappedBy = "article",cascade = CascadeType.ALL)
     private List<Comment> comments ;
 
     @Builder
-    public Article(String title, String content) {
+    public Article(String title, String content, Long viewCount) {
         this.title = title;
         this.content = content;
+        this.viewCount = viewCount;
     }
     // 비즈니스 메서드
     public void updateDetails(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    // 조회수 증가 메서드
+    public void incrementViewCount() {
+        if (this.viewCount == null) {
+            this.viewCount = 0L;
+        }
+        this.viewCount += 1;
     }
 
 }

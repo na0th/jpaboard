@@ -9,11 +9,13 @@ import lombok.Getter;
 public class AddArticleRequest {
     private String title;
     private String content;
+    private Long viewCount;
 
     public Article toEntity() {
         return Article.builder()
                 .title(title)
                 .content(content)
+                .viewCount(viewCount)
                 .build();
     }
 }
