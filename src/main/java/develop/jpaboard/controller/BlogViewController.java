@@ -76,8 +76,14 @@ public class BlogViewController {
     }
 
     @PostMapping("/articles/{id}/comments")
-    public String AddComment(@PathVariable Long id, AddCommentRequest request) {
+    public String addComment(@PathVariable Long id, AddCommentRequest request) {
         blogService.addComment(id,request);
         return "redirect:/articles/"+id;
+    }
+
+    @PostMapping("/delete/comment")
+    public String deleteComment(@RequestParam Long commentId) {
+        blogService.deleteComment(commentId);
+        return "redirect:/articles";
     }
 }

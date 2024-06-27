@@ -49,4 +49,8 @@ public class BlogService {
 
         return commentRepository.save(comment);
     }
+
+    public void deleteComment(Long commentId) {
+        commentRepository.deleteById(commentId);
+    }
 }
