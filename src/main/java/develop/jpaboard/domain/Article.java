@@ -42,10 +42,16 @@ public class Article {
     @ColumnDefault("0") //default 0
     private Long viewCount;
 
+    @Column(name = "comment_count")
+    @ColumnDefault("0") //default 0
+    private Long commentCount;
     @PrePersist
     protected void onCreate() {
         if (this.viewCount == null) {
             this.viewCount = 0L;
+        }
+        if (this.commentCount == null) {
+            this.commentCount = 0L;
         }
     }
 
@@ -70,6 +76,13 @@ public class Article {
             this.viewCount = 0L;
         }
         this.viewCount += 1;
+    }
+    //댓글 수 증가 메서드
+    public void incrementCommentCount() {
+        if (this.commentCount == null) {
+            this.commentCount = 0L;
+        }
+        this.commentCount += 1;
     }
 
 }

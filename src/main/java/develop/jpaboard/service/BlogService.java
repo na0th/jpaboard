@@ -48,6 +48,8 @@ public class BlogService {
                 .build();
         findArticle.getComments().add(comment);
 
+        findArticle.incrementCommentCount();
+
         return commentRepository.save(comment);
     }
 

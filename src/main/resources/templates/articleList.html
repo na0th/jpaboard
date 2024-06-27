@@ -23,6 +23,7 @@
         <h5 class="card-title" th:text="${item.title}"></h5>
         <p class="card-text" th:text="${item.content}"></p>
         <p class="card-text" th:text="'Views: ' + ${item.viewCount}"></p>
+        <p class="card-text" th:text="'댓글 수: ' + ${item.commentCount}"></p>
         <a th:href="@{/articles/{id}(id=${item.id})}"
            class="btn btn-primary">보러가기</a>
       </div>
