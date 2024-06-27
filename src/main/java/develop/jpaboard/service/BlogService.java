@@ -5,6 +5,7 @@ import develop.jpaboard.domain.Comment;
 import develop.jpaboard.dto.AddArticleRequest;
 import develop.jpaboard.dto.AddCommentRequest;
 import develop.jpaboard.dto.UpdateArticleRequest;
+import develop.jpaboard.dto.UpdateCommentRequest;
 import develop.jpaboard.repository.BlogRepository;
 import develop.jpaboard.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +51,20 @@ public class BlogService {
         return commentRepository.save(comment);
     }
 
+    public Comment updateComment(Long commentId, UpdateCommentRequest request) {
+        if (commentId == null) {
+            throw new IllegalArgumentException("The given id must not be null!!");
+        }
+        Comment comment = findCommentById(commentId);
+        comment.updateComment(request.getContent());
+        return commentRepository.save(comment);
+
+    }
     public void deleteComment(Long commentId) {
         commentRepository.deleteById(commentId);
+    }
+
+    public Comment findCommentById(Long commentId){
+        return commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("not found: " + commentId));
     }
 }

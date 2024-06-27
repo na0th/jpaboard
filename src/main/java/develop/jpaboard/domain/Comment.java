@@ -1,16 +1,14 @@
 package develop.jpaboard.domain;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Table(name = "comments")
 @Entity
 @NoArgsConstructor
 @ToString
 @Getter
+@Setter
 public class Comment {
 
     @Id
@@ -28,6 +26,10 @@ public class Comment {
     @Builder
     public Comment(Article article,String content) {
         this.article = article;
+        this.content = content;
+    }
+    // 비즈니스 메서드
+    public void updateComment(String content) {
         this.content = content;
     }
 }

@@ -26,7 +26,6 @@ public class BlogViewController {
                 .map(ArticleListViewResponse::new)
                 .toList();
         model.addAttribute("articles",articles);
-
         return "articleList";
     }
     @Transactional
@@ -34,20 +33,22 @@ public class BlogViewController {
     public String getArticle(@PathVariable Long id, Model model) {
         Article findArticle = blogService.findById(id);
         findArticle.incrementViewCount();
-        model.addAttribute("article",new ArticleViewResponse(findArticle));
+        model.addAttribute("article", new ArticleViewResponse(findArticle));
         return "article";
     }
+
     @GetMapping("/new-article")
     public String newArticle(@RequestParam(required = false) Long id, Model model) {
-        if (id == null){
-            model.addAttribute("article",new ArticleViewResponse());
-        }else{
+        if (id == null) {
+            model.addAttribute("article", new ArticleViewResponse());
+        } else {
             Article findArticle = blogService.findById(id);
-            model.addAttribute("article",new ArticleViewResponse(findArticle));
+            model.addAttribute("article", new ArticleViewResponse(findArticle));
         }
 
         return "newArticle";
     }
+
     @PostMapping("/new-article")
     public String newArticle(@ModelAttribute("article") ArticleViewResponse article, Model model) {
 
@@ -66,7 +67,7 @@ public class BlogViewController {
     @PostMapping("/articles/{id}/edit")
     public String updateArticle(@PathVariable Long id, @ModelAttribute("article") UpdateArticleRequest updateArticleRequest, Model model) {
         blogService.update(id, updateArticleRequest);
-        return "redirect:/articles/"+id;
+        return "redirect:/articles/" + id;
     }
 
     @GetMapping("/articles/{id}/delete")
@@ -77,13 +78,37 @@ public class BlogViewController {
 
     @PostMapping("/articles/{id}/comments")
     public String addComment(@PathVariable Long id, AddCommentRequest request) {
-        blogService.addComment(id,request);
-        return "redirect:/articles/"+id;
+        blogService.addComment(id, request);
+        return "redirect:/articles/" + id;
     }
 
     @PostMapping("/delete/comment")
     public String deleteComment(@RequestParam Long commentId) {
         blogService.deleteComment(commentId);
         return "redirect:/articles";
+    }
+
+    @GetMapping("/articles/{id}/editComment")
+    public String updateComment(@ModelAttribute("article") UpdateCommentRequest request, @PathVariable Long id, @RequestParam Long commentId, Model model) {
+
+//        Article findArticle = blogService.findById(id);
+        Comment comment = blogService.findCommentById(commentId);
+
+        model.addAttribute("id", id);
+        model.addAttribute("comment", comment);
+
+        return "editComment";
+    }
+
+    @PostMapping("{id}/editComment")
+    public String updateComment(@PathVariable Long id, @ModelAttribute("comment") UpdateCommentRequest request) {
+
+//        UpdateCommentRequest request = UpdateCommentRequest.builder()
+//                .commentId(comment.getId())
+//                .content(comment.getContent())
+//                .build();
+
+        blogService.updateComment(request.getId(),request);
+        return "redirect:/articles/"+id;
     }
 }

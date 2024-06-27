@@ -59,7 +59,12 @@
               <p class="card-text" th:text="${comment?.id}"></p>
               <p class="card-text" th:text="${comment?.content}"></p>
             </div>
-            <button type="button" class="btn btn-primary">수정</button>
+            <form th:action="@{/articles/{articleId}/editComment(articleId=${article.id})}" th:object="${article}" method="get" style="display:inline;">
+              <input type="hidden" name="commentId" th:value="${comment.id}" />
+              <input type="hidden" name="articleId" th:value="${article.id}" />
+              <button type="submit" class="btn btn-primary">수정</button>
+            </form>
+<!--            <button type="button" class="btn btn-primary">수정</button>-->
             <form th:action="@{/delete/comment}" method="post" style="display:inline;">
               <input type="hidden" name="commentId" th:value="${comment.id}" />
               <input type="hidden" name="articleId" th:value="${article.id}" />
