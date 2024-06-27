@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.boot.model.relational.Sequence;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -38,7 +39,15 @@ public class Article {
     private String title;
 
     @Column(name = "view")
+    @ColumnDefault("0") //default 0
     private Long viewCount;
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.viewCount == null) {
+            this.viewCount = 0L;
+        }
+    }
 
     @OneToMany(mappedBy = "article",cascade = CascadeType.ALL)
     private List<Comment> comments ;
