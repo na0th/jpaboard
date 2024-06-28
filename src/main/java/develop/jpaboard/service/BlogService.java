@@ -9,6 +9,9 @@ import develop.jpaboard.dto.UpdateCommentRequest;
 import develop.jpaboard.repository.BlogRepository;
 import develop.jpaboard.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +34,11 @@ public class BlogService {
     }
     public List<Article> findAll() {
         return blogRepository.findAll();
+    }
+
+    public Page<Article> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return blogRepository.findAll(pageable);
     }
     public Article findById(Long id){
         return blogRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("not found: " + id));

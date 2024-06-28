@@ -30,6 +30,18 @@
     </div>
     <br>
   </div>
+
+  <div>
+    <span th:text="'Page ' + (${currentPage + 1}) + ' of ' + ${totalPages}"></span>
+  </div>
+  <div>
+    <ul>
+      <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+        <a th:if="${i != currentPage}" th:href="@{/articles(page=${i}, size=${size})}" th:text="${i + 1}"></a>
+        <span th:if="${i == currentPage}" th:text="${i + 1}"></span>
+      </li>
+    </ul>
+  </div>
 </div>
 
 
