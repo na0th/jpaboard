@@ -3,6 +3,7 @@ package develop.jpaboard.dto;
 
 import develop.jpaboard.domain.Article;
 import develop.jpaboard.domain.Comment;
+import develop.jpaboard.domain.File;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +24,8 @@ public class ArticleViewResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private List<Comment> comments;
+
+    private List<File> files;
     public ArticleViewResponse(Article article) {
         this.id = article.getId();
         this.title= article.getTitle();
@@ -32,6 +35,7 @@ public class ArticleViewResponse {
         this.createdAt = article.getCreatedAt();
         this.updatedAt = article.getUpdatedAt();
         this.comments = article.getComments();
+        this.files = article.getFiles();
     }
 
 }

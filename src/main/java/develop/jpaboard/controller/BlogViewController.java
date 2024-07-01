@@ -2,9 +2,11 @@ package develop.jpaboard.controller;
 
 import develop.jpaboard.domain.Article;
 import develop.jpaboard.domain.Comment;
+import develop.jpaboard.domain.File;
 import develop.jpaboard.dto.*;
 import develop.jpaboard.repository.BlogRepository;
 import develop.jpaboard.service.BlogService;
+import develop.jpaboard.service.FileService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -21,6 +25,7 @@ import java.util.List;
 public class BlogViewController {
 
     private final BlogService blogService;
+    private final FileService fileService;
     @GetMapping("/articles")
     public String getArticles(Model model,
                               @RequestParam(defaultValue = "0") int page,
@@ -59,8 +64,9 @@ public class BlogViewController {
         return "newArticle";
     }
 
+    @Transactional
     @PostMapping("/new-article")
-    public String newArticle(@ModelAttribute("article") ArticleViewResponse article, Model model) {
+    public String newArticle(@ModelAttribute("article") ArticleViewResponse article,@RequestParam("image") MultipartFile imageFile, Model model) {
 
         //넘어온 건 ArticleViewResponse고 만들어야 하는 건 AddArticleRequest..
         AddArticleRequest addArticleRequest = AddArticleRequest.builder()
@@ -69,7 +75,16 @@ public class BlogViewController {
                 .viewCount(article.getViewCount())
                 .build();
 
-        blogService.save(addArticleRequest);
+        Article savedArticle = blogService.save(addArticleRequest);
+        try {
+            if (imageFile != null && !imageFile.isEmpty()) {
+                File file = fileService.save(savedArticle, imageFile);
+                savedArticle.addFile(file);
+            }
+        } catch (IOException e) {
+            return "redirect:/error";
+        }
+
 
         return "redirect:/articles";
     }

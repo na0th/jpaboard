@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @Entity
@@ -45,6 +46,8 @@ public class Article {
     @Column(name = "comment_count")
     @ColumnDefault("0") //default 0
     private Long commentCount;
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    private List<File> files = new ArrayList<>();
     @PrePersist
     protected void onCreate() {
         if (this.viewCount == null) {
@@ -64,6 +67,11 @@ public class Article {
         this.content = content;
         this.viewCount = viewCount;
     }
+    //파일 추가 메서드
+    public void addFile(File file) {
+        files.add(file); // Article의 files 리스트에 파일을 추가
+    }
+
     // 비즈니스 메서드
     public void updateDetails(String title, String content) {
         this.title = title;

@@ -1,5 +1,11 @@
 # 자동 재시작 기능 활성화
 spring:
+# multipart 파일 업로드
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+      max-request-size: 2MB
 # 타임리프
   thymeleaf:
     cache: false
