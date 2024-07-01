@@ -89,9 +89,22 @@ public class BlogViewController {
         return "redirect:/articles";
     }
 
+    @Transactional
     @PostMapping("/articles/{id}/edit")
-    public String updateArticle(@PathVariable Long id, @ModelAttribute("article") UpdateArticleRequest updateArticleRequest, Model model) {
+    public String updateArticle(@PathVariable Long id,
+                                @ModelAttribute("article") UpdateArticleRequest updateArticleRequest,
+                                @RequestParam("image") MultipartFile imageFile,
+                                @RequestParam("files[0].id") Long fileId,
+                                Model model) throws IOException {
+    /*
+        fileId를 article에서 찾는 방법
+        Article article = blogService.findById(id);
+        Long fileId = article.getFiles().get(0).getId();
+     */
+
         blogService.update(id, updateArticleRequest);
+        fileService.update(fileId,imageFile);
+
         return "redirect:/articles/" + id;
     }
 
