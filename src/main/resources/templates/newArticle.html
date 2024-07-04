@@ -17,7 +17,7 @@
 
         <form th:action="${article.id != null ? '/articles/' + article.id +'/edit': '/new-article'}" th:object="${article}" method="post" enctype="multipart/form-data">
           <input type="hidden" id="article-id" th:field="*{id}">
-          <input type="hidden" id="file-id" th:if="${article.files}" th:field="*{files[0].id}">
+<!--          <input type="hidden" id="file-id" th:if="${article.files}" th:field="*{files[0].id}">-->
           <header class="mb-4">
             <input type="text" class="form-control" placeholder="제목" id="title" th:field="*{title}">
           </header>

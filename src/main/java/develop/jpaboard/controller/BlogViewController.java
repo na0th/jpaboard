@@ -96,7 +96,7 @@ public class BlogViewController {
     public String updateArticle(@PathVariable Long id,
                                 @ModelAttribute("article") UpdateArticleRequest updateArticleRequest,
                                 @RequestParam("image") MultipartFile imageFile,
-                                @RequestParam("files[0].id") Long fileId,
+//                                @RequestParam("files[0].id") Long fileId,
                                 Model model) throws IOException {
     /*
         fileId를 article에서 찾는 방법
@@ -104,8 +104,24 @@ public class BlogViewController {
         Long fileId = article.getFiles().get(0).getId();
      */
 
+        Article article = blogService.findById(id);
         blogService.update(id, updateArticleRequest);
-        fileService.update(fileId, imageFile);
+
+        try {
+            if (imageFile != null && !imageFile.isEmpty()) {
+                try{
+                    Long fileId = article.getFiles().get(0).getId();
+                    fileService.update(fileId, imageFile);
+
+                } catch(IndexOutOfBoundsException e){
+                    File file = fileService.save(article, imageFile);
+                    article.addFile(file);
+                }
+            }
+
+        } catch (IOException e) {
+            return "redirect:/error";
+        }
 
         return "redirect:/articles/" + id;
     }
