@@ -122,10 +122,13 @@ public class BlogViewController {
         return "redirect:/articles/" + id;
     }
 
+    @Transactional
     @PostMapping("/delete/comment")
-    public String deleteComment(@RequestParam Long commentId) {
+    public String deleteComment(@RequestParam("articleId") Long articleId, @RequestParam Long commentId) {
+        Article findArticle = blogService.findById(articleId);
         blogService.deleteComment(commentId);
-        return "redirect:/articles";
+        findArticle.decrementCommentCount();
+        return "redirect:/articles/"+articleId;
     }
 
     @GetMapping("/articles/{id}/editComment")

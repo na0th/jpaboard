@@ -85,12 +85,22 @@ public class Article {
         }
         this.viewCount += 1;
     }
-    //댓글 수 증가 메서드
+    //댓글 수 증가 메서드(글 생성)
     public void incrementCommentCount() {
         if (this.commentCount == null) {
             this.commentCount = 0L;
         }
         this.commentCount += 1;
     }
+
+    //댓글 수 감소 메서드(글 삭제)
+    public void decrementCommentCount() {
+        if (this.commentCount == null || this.commentCount <= 0) {
+            this.commentCount = 0L;
+        } else {
+            this.commentCount -= 1;
+        }
+    }
+
 
 }
