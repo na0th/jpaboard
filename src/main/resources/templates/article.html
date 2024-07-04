@@ -37,6 +37,11 @@
             <h3>첨부파일</h3>
             <ul class="no-bullets">
               <li th:each="file : ${article.files}">
+                <form th:action="'/delete/image'" method="post">
+                  <input type="hidden" th:name="fileId" th:value="${file.id}">
+                  <input type="hidden" th:name="articleId" th:value="${article.id}">
+                  <button type="submit" class="btn btn-danger btn-sm">이미지 삭제</button>
+                </form>
                 <img th:if="${file.data != null}" th:src="|data:${file.contentType};base64,${file.base64Data}|"
                      alt="Attached Image" style="max-width: 100%; height: auto;"/>
               </li>

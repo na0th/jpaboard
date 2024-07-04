@@ -26,16 +26,17 @@ public class BlogViewController {
 
     private final BlogService blogService;
     private final FileService fileService;
+
     @GetMapping("/articles")
     public String getArticles(Model model,
                               @RequestParam(defaultValue = "0") int page,
                               @RequestParam(defaultValue = "3") int size) {
-        Page<Article> articlesPage = blogService.findAll(page,size);
+        Page<Article> articlesPage = blogService.findAll(page, size);
 //        List<ArticleListViewResponse> articles = blogService.findAll().stream()
 //                .map(ArticleListViewResponse::new)
 //                .toList();
 
-        model.addAttribute("articles",articlesPage);
+        model.addAttribute("articles", articlesPage);
         model.addAttribute("currentPage", page);
         model.addAttribute("size", size);
         model.addAttribute("totalPages", articlesPage.getTotalPages());
@@ -43,6 +44,7 @@ public class BlogViewController {
 
         return "articleList";
     }
+
     @Transactional
     @GetMapping("/articles/{id}")
     public String getArticle(@PathVariable Long id, Model model) {
@@ -66,7 +68,7 @@ public class BlogViewController {
 
     @Transactional
     @PostMapping("/new-article")
-    public String newArticle(@ModelAttribute("article") ArticleViewResponse article,@RequestParam("image") MultipartFile imageFile, Model model) {
+    public String newArticle(@ModelAttribute("article") ArticleViewResponse article, @RequestParam("image") MultipartFile imageFile, Model model) {
 
         //넘어온 건 ArticleViewResponse고 만들어야 하는 건 AddArticleRequest..
         AddArticleRequest addArticleRequest = AddArticleRequest.builder()
@@ -103,7 +105,7 @@ public class BlogViewController {
      */
 
         blogService.update(id, updateArticleRequest);
-        fileService.update(fileId,imageFile);
+        fileService.update(fileId, imageFile);
 
         return "redirect:/articles/" + id;
     }
@@ -146,7 +148,13 @@ public class BlogViewController {
 //                .content(comment.getContent())
 //                .build();
 
-        blogService.updateComment(request.getId(),request);
-        return "redirect:/articles/"+id;
+        blogService.updateComment(request.getId(), request);
+        return "redirect:/articles/" + id;
+    }
+
+    @PostMapping("/delete/image")
+    public String deleteImage(@RequestParam("articleId") Long articleId, @RequestParam("fileId") Long fileId){
+        fileService.delete(fileId);
+        return "redirect:/articles/"+articleId;
     }
 }

@@ -50,4 +50,10 @@ public class FileService {
 
         return fileRepository.save(file);
     }
+
+    public void delete(Long fileId) {
+        fileRepository.deleteById(fileId);
+    }
 }
+
+
