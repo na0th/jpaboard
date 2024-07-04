@@ -63,13 +63,11 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">댓글 추가</h5>
-            <form th:action="@{/articles/{articleId}/comments(articleId=${article.id})}" th:object="${article}" method="post">
+            <form th:action="@{/articles/{articleId}/comments(articleId=${article.id})}" th:object="${comment}" method="post">
               <div class ="mb-3">
-                <textarea class="form-control" id="content" th:field="*{content}" rows="3"></textarea>
+                <textarea class="form-control" id="content" th:field="*{content}" rows="3" placeholder="댓글을 작성해주세요."></textarea>
               </div>
               <button type="submit" id="comment-create-btn" class="btn btn-primary">댓글 추가</button>
-<!--                    th:onclick="|location.href='@{/articles/{articleId}/comments(articleId=${article.id})}'|"-->
-
             </form>
           </div>
         </div>
@@ -79,7 +77,7 @@
         <div class="card mb-1">
           <div class="card-body">
             <div class="text-muted fst-italic mb-2">
-              <p class="card-text" th:text="${comment?.id}"></p>
+<!--              <p class="card-text" th:text="${comment?.id}"></p>-->
               <p class="card-text" th:text="${comment?.content}"></p>
             </div>
             <form th:action="@{/articles/{articleId}/editComment(articleId=${article.id})}" th:object="${article}" method="get" style="display:inline;">

@@ -51,6 +51,7 @@ public class BlogViewController {
         Article findArticle = blogService.findById(id);
         findArticle.incrementViewCount();
         model.addAttribute("article", new ArticleViewResponse(findArticle));
+        model.addAttribute("comment", new Comment());
         return "article";
     }
 
@@ -88,7 +89,7 @@ public class BlogViewController {
         }
 
 
-        return "redirect:/articles";
+        return "redirect:/articles/"+savedArticle.getId();
     }
 
     @Transactional
