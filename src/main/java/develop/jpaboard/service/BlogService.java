@@ -53,7 +53,9 @@ public class BlogService {
         Comment comment = Comment.builder()
                 .article(findArticle)
                 .content(request.getContent())
+                .userName(request.getUserName())
                 .build();
+
         findArticle.getComments().add(comment);
 
         findArticle.incrementCommentCount();

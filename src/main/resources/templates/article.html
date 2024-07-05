@@ -64,6 +64,10 @@
           <div class="card-body">
             <h5 class="card-title">댓글 추가</h5>
             <form th:action="@{/articles/{articleId}/comments(articleId=${article.id})}" th:object="${comment}" method="post">
+              <div class="mb-3">
+                <label for="userName" class="form-label">유저명</label>
+                <input type="text" class="form-control" id="userName" th:field="*{userName}" placeholder="유저명을 입력해주세요." style="max-width: 200px;">
+              </div>
               <div class ="mb-3">
                 <textarea class="form-control" id="content" th:field="*{content}" rows="3" placeholder="댓글을 작성해주세요."></textarea>
               </div>
@@ -78,6 +82,10 @@
           <div class="card-body">
             <div class="text-muted fst-italic mb-2">
 <!--              <p class="card-text" th:text="${comment?.id}"></p>-->
+              <div class="d-flex align-items-center mb-2">
+                <span class="fw-bold me-2" th:text="${comment?.userName}">유저명</span>
+              </div>
+              <hr>
               <p class="card-text" th:text="${comment?.content}"></p>
             </div>
             <form th:action="@{/articles/{articleId}/editComment(articleId=${article.id})}" th:object="${article}" method="get" style="display:inline;">

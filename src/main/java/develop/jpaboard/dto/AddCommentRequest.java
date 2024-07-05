@@ -16,10 +16,13 @@ public class AddCommentRequest {
 
     private String content;
 
+    private String userName;
+
     public Comment toEntity(Article article) {
         return Comment.builder()
                 .article(article)
                 .content(content)
+                .userName(userName)
                 .build();
     }
 }
