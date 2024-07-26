@@ -51,7 +51,7 @@ public class BlogViewController {
         Article findArticle = blogService.findById(id);
         findArticle.incrementViewCount();
         model.addAttribute("article", new ArticleViewResponse(findArticle));
-        model.addAttribute("comment", new Comment());
+        model.addAttribute("commentDto", new CommentDto());
         return "article";
     }
 
@@ -154,8 +154,10 @@ public class BlogViewController {
 //        Article findArticle = blogService.findById(id);
         Comment comment = blogService.findCommentById(commentId);
 
+        CommentDto commentDto = new CommentDto(comment.getId(),comment.getContent(),comment.getUserName());
+
         model.addAttribute("id", id);
-        model.addAttribute("comment", comment);
+        model.addAttribute("comment", commentDto);
 
         return "editComment";
     }

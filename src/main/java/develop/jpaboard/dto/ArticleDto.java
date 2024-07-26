@@ -1,18 +1,21 @@
 package develop.jpaboard.dto;
 
-
 import develop.jpaboard.domain.Article;
-import develop.jpaboard.domain.Comment;
 import develop.jpaboard.domain.File;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Getter @Setter
+@Getter
 @NoArgsConstructor
-public class ArticleViewResponse {
+@AllArgsConstructor
+@Builder
+public class ArticleDto {
+
     private Long id;
     private String title;
     private String content;
@@ -25,7 +28,8 @@ public class ArticleViewResponse {
     private List<CommentDto> comments;
 
     private List<FileDto> files;
-    public ArticleViewResponse(Article article) {
+
+    public ArticleDto(Article article) {
         this.id = article.getId();
         this.title= article.getTitle();
         this.content= article.getContent();
@@ -46,5 +50,4 @@ public class ArticleViewResponse {
                 ))
                 .toList();
     }
-
 }

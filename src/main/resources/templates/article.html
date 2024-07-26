@@ -63,7 +63,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">댓글 추가</h5>
-            <form th:action="@{/articles/{articleId}/comments(articleId=${article.id})}" th:object="${comment}" method="post">
+            <form th:action="@{/articles/{articleId}/comments(articleId=${article.id})}" th:object="${commentDto}" method="post">
               <div class="mb-3">
                 <label for="userName" class="form-label">유저명</label>
                 <input type="text" class="form-control" id="userName" th:field="*{userName}" placeholder="유저명을 입력해주세요." style="max-width: 200px;">
