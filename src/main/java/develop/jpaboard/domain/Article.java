@@ -75,6 +75,13 @@ public class Article {
         files.remove(file);
     }
 
+    public void addComment(Comment comment) {
+        comments.add(comment);
+    }
+    public void removeComment(Comment comment) {
+        comments.remove(comment);
+    }
+
     // 비즈니스 메서드
     public void updateDetails(String title, String content) {
         this.title = title;

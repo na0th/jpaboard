@@ -158,5 +158,39 @@ public class ApiViewController {
 
     }
 
+    //댓글 작성
+    @Transactional
+    @PostMapping("/articles/{id}/comment")
+    public ResponseEntity<?> addComment(@PathVariable Long id,
+                                        AddCommentRequest commentDto) {
+        blogService.addComment(id, commentDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(commentDto);
+    }
+
+    //댓글 수정
+    @Transactional
+    @PutMapping("/articles/{id}/comment/{commentId}")
+    public ResponseEntity<?> updateComment(@PathVariable Long id,
+                                           @ModelAttribute("commentDto") UpdateCommentRequest request) {
+        blogService.updateComment(id, request);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                        .body(request);
+    }
+    //댓글 삭제
+    @Transactional
+    @DeleteMapping("/articles/{id}/comment")
+    public ResponseEntity<?> deleteComment(@PathVariable Long id,
+                                           @RequestParam Long commentId ) {
+
+        Article article = blogService.findById(id);
+        article.decrementCommentCount();
+
+        blogService.deleteComment(commentId);
+
+        return ResponseEntity.ok("Comment successfully deleted");
+    }
+
 
 }
