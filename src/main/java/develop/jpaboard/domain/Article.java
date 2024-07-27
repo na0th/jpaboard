@@ -46,7 +46,7 @@ public class Article {
     @Column(name = "comment_count")
     @ColumnDefault("0") //default 0
     private Long commentCount;
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<File> files = new ArrayList<>();
     @PrePersist
     protected void onCreate() {
@@ -70,6 +70,9 @@ public class Article {
     //파일 추가 메서드
     public void addFile(File file) {
         files.add(file); // Article의 files 리스트에 파일을 추가
+    }
+    public void removeFile(File file) {
+        files.remove(file);
     }
 
     // 비즈니스 메서드

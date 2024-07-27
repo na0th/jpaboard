@@ -6,10 +6,12 @@ import develop.jpaboard.domain.File;
 import develop.jpaboard.dto.*;
 import develop.jpaboard.repository.BlogRepository;
 import develop.jpaboard.repository.CommentRepository;
+import develop.jpaboard.repository.FileRepository;
 import develop.jpaboard.service.BlogService;
 import develop.jpaboard.service.FileService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +28,12 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
+@Slf4j
 @RequestMapping("/api")
 public class ApiViewController {
     private final BlogService blogService;
     private final FileService fileService;
+    private final FileRepository fileRepository;
 
 //  글 작성
     @Transactional
@@ -134,8 +138,24 @@ public class ApiViewController {
     @DeleteMapping("/articles/{id}")
     public ResponseEntity<Void> deleteArticle(@PathVariable Long id) {
         blogService.delete(id);
-        return ResponseEntity.ok()
-                .build();
+        return ResponseEntity.noContent().build();
+    }
+
+    // 이미지 삭제
+    @Transactional
+    @DeleteMapping("/articles/{id}/image/{fileId}")
+    public ResponseEntity<Void> deleteImage(@PathVariable Long id,
+                                            @PathVariable Long fileId
+            ) {
+        // 글, 파일 찾기
+            Article article = blogService.findById(id);
+            File file = fileService.findFileById(fileId);
+        //삭제 article에서, file에서
+            fileService.delete(fileId);
+            article.removeFile(file);
+
+            return ResponseEntity.noContent().build();
+
     }
 
 
