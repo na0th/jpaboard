@@ -1,11 +1,13 @@
 package develop.jpaboard.dto;
 
 import develop.jpaboard.domain.Article;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Builder
 @Getter
+@AllArgsConstructor
 public class AddArticleRequest {
     private String title;
     private String content;

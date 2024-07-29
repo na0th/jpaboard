@@ -26,6 +26,11 @@ spring:
   h2:
     console:
       enabled: true
+
+#  jwt
+jwt:
+  issuer: 9060gc@naver.com
+  secret_key: study-springboot
 #spring :
 #  jpa:
 #    show-sql:  true
